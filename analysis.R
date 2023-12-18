@@ -237,12 +237,18 @@ rmaObjects <- lapply(dat, function(file) {
 #'# Results
 results
 
-#'# Funnel plots
-#'
-#+ message = FALSE
-lapply(names(rmaObjects), function(fileName) {
-  lapply(names(rmaObjects[[fileName]]), function(sheetName) {
-      plotTitle <- paste("Funnel Plot for", fileName, "-", sheetName)
-      metafor::funnel(rmaObjects[[fileName]][[sheetName]], level=c(90, 95, 99), shade=c("white", "gray", "darkgray"), refline=0, pch = 20, yaxis = "sei", main = plotTitle)
-  })
-})
+#'## Forest plots
+for (fileName in names(rmaObjects)) {
+  for (sheetName in names(rmaObjects[[fileName]])) {
+    plotTitle <- paste("Forest Plot for", fileName, "-", sheetName)
+    metafor::forest(rmaObjects[[fileName]][[sheetName]], main = plotTitle)
+  }
+}
+
+#'## Funnel plots
+for (fileName in names(rmaObjects)) {
+  for (sheetName in names(rmaObjects[[fileName]])) {
+    plotTitle <- paste("Funnel Plot for", fileName, "-", sheetName)
+    metafor::funnel(rmaObjects[[fileName]][[sheetName]], level=c(90, 95, 99), shade=c("white", "gray", "darkgray"), refline=0, pch = 20, yaxis = "sei", main = plotTitle)
+  }
+}
